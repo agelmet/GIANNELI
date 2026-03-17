@@ -44,17 +44,18 @@
                         'elegant': '0 10px 40px -10px rgba(43,45,66,0.1)',
                     },
                     animation: {
-                        'blob': 'blob 12s infinite',
+                        'blob': 'blob 15s infinite alternate',
                         'float': 'float 6s ease-in-out infinite',
                         'marquee': 'marquee 45s linear infinite',
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'line-flow': 'lineFlow 8s ease-in-out infinite alternate',
+                        'spin-slow': 'spin 20s linear infinite',
+                        'spin-reverse': 'spin 25s linear infinite reverse',
                     },
                     keyframes: {
                         blob: {
                             '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(40px, -60px) scale(1.1)' },
-                            '66%': { transform: 'translate(-30px, 30px) scale(0.9)' },
+                            '33%': { transform: 'translate(50px, -80px) scale(1.1)' },
+                            '66%': { transform: 'translate(-40px, 40px) scale(0.9)' },
                             '100%': { transform: 'translate(0px, 0px) scale(1)' },
                         },
                         float: {
@@ -64,10 +65,6 @@
                         marquee: {
                             '0%': { transform: 'translateX(0%)' },
                             '100%': { transform: 'translateX(-50%)' },
-                        },
-                        lineFlow: {
-                            '0%': { transform: 'translateX(-5%) translateY(-5%) rotate(0deg)' },
-                            '100%': { transform: 'translateX(5%) translateY(5%) rotate(2deg)' }
                         }
                     }
                 }
@@ -112,6 +109,43 @@
             border-radius: 150px 150px 20px 20px;
         }
 
+        /* Hero Text Gradient Animation */
+        .text-gradient-animate {
+            background: linear-gradient(to right, #111111, #A39171, #2B2D42, #111111);
+            background-size: 300% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: gradientText 8s linear infinite;
+        }
+        @keyframes gradientText {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
+        /* Dynamic Mesh Background */
+        .mesh-bg {
+            background-color: #F8F9FA;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(27, 33%, 89%, 0.6) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(215, 14%, 60%, 0.4) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(38, 23%, 72%, 0.5) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(210, 8%, 90%, 0.8) 0px, transparent 50%);
+            animation: pulseBg 10s ease-in-out infinite alternate;
+        }
+        @keyframes pulseBg {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        /* Custom Floating Particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(163, 145, 113, 0.4), rgba(43, 45, 66, 0.1));
+            pointer-events: none;
+        }
+
         /* Marquee specific */
         .marquee-container {
             display: flex;
@@ -119,16 +153,6 @@
         }
         .marquee-container:hover {
             animation-play-state: paused;
-        }
-
-        /* Hero Abstract Lines */
-        .svg-line {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: dash 4s ease-in-out forwards;
-        }
-        @keyframes dash {
-            to { stroke-dashoffset: 0; }
         }
 
         /* Service Cards Interaction */
@@ -147,8 +171,8 @@
 <body class="bg-brand-pearl text-brand-slate font-sans antialiased overflow-x-hidden selection:bg-brand-taupe selection:text-white">
 
     <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-        <div class="absolute top-[10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-brand-blush/30 mix-blend-multiply filter blur-[100px] animate-blob"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-brand-sand/30 mix-blend-multiply filter blur-[120px] animate-blob" style="animation-delay: 4s;"></div>
+        <div class="absolute top-[10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-brand-blush/20 mix-blend-multiply filter blur-[100px] animate-blob"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-brand-sand/20 mix-blend-multiply filter blur-[120px] animate-blob" style="animation-delay: 4s;"></div>
     </div>
 
     <nav class="fixed w-full z-50 transition-all duration-500 glass-nav py-4" id="navbar">
@@ -181,101 +205,102 @@
         </div>
     </nav>
 
-    <section class="relative min-h-screen flex items-center pt-28 pb-20 px-6 md:px-12 overflow-hidden">
+    <section class="relative min-h-screen flex items-center justify-center pt-28 pb-20 px-6 md:px-12 overflow-hidden mesh-bg" id="hero-section">
         
-        <div class="absolute inset-0 z-0 pointer-events-none opacity-40 animate-line-flow">
-            <svg class="absolute top-10 left-[-10%] w-[70%] h-auto z-0 drop-shadow-2xl" viewBox="0 0 800 400" fill="none">
-                <path class="svg-line" d="M0 200 C 300 400, 500 0, 800 200" stroke="url(#paint0_linear)" stroke-width="2" fill="none"/>
-                <path class="svg-line" d="M0 250 C 250 450, 550 -50, 800 250" stroke="url(#paint1_linear)" stroke-width="1" fill="none" style="animation-delay: 0.5s;"/>
-                <defs>
-                    <linearGradient id="paint0_linear" x1="0" y1="200" x2="800" y2="200" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#A39171" stop-opacity="0.8"/>
-                        <stop offset="1" stop-color="#D1C8C1" stop-opacity="0"/>
-                    </linearGradient>
-                    <linearGradient id="paint1_linear" x1="0" y1="250" x2="800" y2="250" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#2B2D42" stop-opacity="0.4"/>
-                        <stop offset="1" stop-color="#8D99AE" stop-opacity="0"/>
-                    </linearGradient>
-                </defs>
+        <div class="absolute inset-0 z-0 overflow-hidden flex items-center justify-center pointer-events-none opacity-60">
+            <div class="parallax-layer absolute w-[800px] h-[800px] border-[1px] border-brand-taupe/20 rounded-full animate-spin-slow" data-speed="1.5"></div>
+            <div class="parallax-layer absolute w-[600px] h-[600px] border-[1px] border-brand-slate/10 rounded-full animate-spin-reverse" data-speed="2.5"></div>
+            <div class="parallax-layer absolute w-[400px] h-[400px] border-[2px] border-dashed border-brand-sand/30 rounded-full animate-spin-slow" data-speed="4"></div>
+            
+            <svg class="parallax-layer absolute top-[15%] left-[10%] w-64 h-auto drop-shadow-xl text-brand-taupe/30 animate-float" data-speed="3" viewBox="0 0 200 200" fill="currentColor">
+                <path d="M45.7,-76.3C58.9,-69.3,69.2,-55.4,78.2,-40.5C87.2,-25.5,95,-9.5,92.5,5.1C90,19.7,77.3,32.8,65.3,44.2C53.3,55.5,42.1,65.1,28.6,72.7C15.2,80.3,-0.5,85.9,-16.1,84.6C-31.7,83.3,-47.1,75.1,-60.1,63.7C-73.1,52.3,-83.7,37.6,-88.7,21.3C-93.7,5,-93.1,-13.1,-86,-28.9C-78.9,-44.7,-65.4,-58.3,-50.3,-64.5C-35.3,-70.7,-17.6,-69.6,-0.3,-69.1C17,-68.6,33.9,-68.7,45.7,-76.3Z" transform="translate(100 100)" />
             </svg>
-            <svg class="absolute bottom-10 right-[-10%] w-[60%] h-auto z-0 drop-shadow-2xl" viewBox="0 0 600 300" fill="none">
-                <path class="svg-line" d="M600 150 C 400 -50, 200 350, 0 150" stroke="#A39171" stroke-width="1.5" stroke-opacity="0.4" fill="none" style="animation-delay: 1s;"/>
+            <svg class="parallax-layer absolute bottom-[10%] right-[10%] w-80 h-auto drop-shadow-2xl text-brand-slate/10 animate-float" data-speed="5" style="animation-delay: 2s;" viewBox="0 0 200 200" fill="currentColor">
+                <path d="M41.7,-71.4C54.9,-65.6,67.1,-55.8,76.5,-43.3C85.9,-30.8,92.4,-15.4,90.2,-1.2C88.1,13,77.4,25.9,67.1,37.4C56.8,48.9,46.9,58.9,34.8,66.8C22.6,74.7,8.2,80.5,-5.8,79.7C-19.8,78.8,-39.6,71.2,-54.2,60.1C-68.8,49.1,-78.2,34.5,-83.2,18.7C-88.2,2.8,-88.8,-14.3,-82,-28.8C-75.2,-43.3,-61,-55.3,-46.5,-60.6C-32,-65.9,-16,-64.5,-0.3,-64C15.4,-63.5,30.8,-63.9,41.7,-71.4Z" transform="translate(100 100)" />
             </svg>
         </div>
 
-        <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center relative z-10 mt-10 lg:mt-0">
+        <div class="max-w-4xl mx-auto w-full flex flex-col items-center text-center relative z-10 parallax-layer" data-speed="1.2">
             
-            <div class="reveal flex flex-col justify-center text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-sand/50 bg-white/50 backdrop-blur-md text-brand-slate text-xs md:text-sm font-semibold mb-8 mx-auto lg:mx-0 w-max shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-brand-taupe animate-pulse"></span>
-                    <span class="no-accents tracking-widest">ΑΠΟΚΛΕΙΣΤΙΚΑ ΔΙΑΔΙΚΤΥΑΚΑ</span>
-                </div>
-                
-                <h1 class="text-5xl md:text-6xl lg:text-[5rem] font-serif text-brand-dark leading-[1.1] mb-6 tracking-tight">
-                    Συστημική Οπτική & <span class="italic text-brand-taupe block mt-2">Ενδυνάμωση.</span>
-                </h1>
-                
-                <p class="text-lg md:text-xl text-brand-slate/80 mb-10 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
-                    Ισορροπία στην Προσωπική και Εργασιακή Ζωή. Ένας ψηφιακός, αλλά απόλυτα ζεστός και ασφαλής χώρος για ουσιαστική αλλαγή.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row items-center gap-5 justify-center lg:justify-start">
-                    <a href="#contact" class="px-9 py-4 bg-brand-dark text-white rounded-full text-sm font-bold tracking-wide hover:bg-brand-taupe transition-colors duration-300 shadow-elegant flex items-center gap-3 group w-full sm:w-auto justify-center no-accents">
-                        ΕΠΙΚΟΙΝΩΝΙΑ
-                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                    <div class="flex items-center gap-4 text-sm font-medium text-brand-stone">
-                        <span class="w-10 h-[1px] bg-brand-sand hidden sm:block"></span>
-                        <span class="no-accents">ONLINE ΣΥΝΕΔΡΙΕΣ</span>
-                    </div>
-                </div>
+            <div class="reveal inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-brand-sand/60 bg-white/40 backdrop-blur-xl text-brand-slate text-xs md:text-sm font-bold mb-8 shadow-glass transform hover:scale-105 transition-transform cursor-default">
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-taupe opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-taupe"></span>
+                </span>
+                <span class="no-accents tracking-widest text-brand-dark">ΑΠΟΚΛΕΙΣΤΙΚΑ ΔΙΑΔΙΚΤΥΑΚΑ</span>
             </div>
-
-            <div class="relative w-full max-w-[480px] mx-auto reveal reveal-delay-2">
-                <div class="absolute inset-0 bg-brand-blush/60 blur-[80px] rounded-full scale-90 z-0"></div>
-                
-                <div class="relative z-10 arch-image overflow-hidden border-8 border-white shadow-2xl animate-float">
-                    <div class="absolute inset-0 bg-brand-slate/10 mix-blend-overlay z-20"></div>
-                    <img src="https://github.com/agelmet/GIANNELI/blob/main/IMG_9771.jpeg?raw=true" alt="Μάρα Γιαννέλη Ψυχολόγος" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-1000 ease-out z-10 relative">
-                </div>
-
-                <div class="absolute bottom-12 -left-8 md:-left-12 z-30 glass-card p-5 rounded-2xl shadow-elegant flex items-center gap-4 animate-[blob_8s_infinite_alternate]">
-                    <div class="w-12 h-12 rounded-full bg-brand-pearl border border-brand-sand flex items-center justify-center text-brand-taupe shadow-sm">
-                        <i data-lucide="award" class="w-6 h-6"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-bold text-brand-dark">Αρ. Αδείας</p>
-                        <p class="text-xs text-brand-stone font-medium mt-0.5">1265969/18-10-23</p>
-                    </div>
-                </div>
+            
+            <h1 class="reveal reveal-delay-1 text-5xl md:text-7xl lg:text-[6.5rem] font-serif text-brand-dark leading-[1.05] mb-6 tracking-tight relative">
+                <span class="text-gradient-animate">Συστημική Οπτική</span><br>
+                <span class="italic font-light text-brand-slate block mt-2 relative">
+                    & Ενδυνάμωση.
+                    <span class="absolute -bottom-2 right-[-20px] w-3 h-3 bg-brand-taupe rounded-full animate-pulse-slow"></span>
+                </span>
+            </h1>
+            
+            <p class="reveal reveal-delay-2 text-lg md:text-2xl text-brand-slate/80 mb-12 max-w-2xl font-light leading-relaxed">
+                Ισορροπία στην Προσωπική και Εργασιακή Ζωή. Ένας ψηφιακός, αλλά απόλυτα ζεστός και ασφαλής χώρος για ουσιαστική αλλαγή.
+            </p>
+            
+            <div class="reveal reveal-delay-3 flex flex-col sm:flex-row items-center gap-6 justify-center">
+                <a href="#contact" class="px-10 py-4 bg-brand-dark text-white rounded-full text-sm font-bold tracking-widest hover:bg-brand-taupe hover:shadow-glow transition-all duration-500 shadow-elegant flex items-center gap-3 group w-full sm:w-auto justify-center no-accents" style="--glow-color: rgba(163, 145, 113, 0.5);">
+                    ΕΠΙΚΟΙΝΩΝΙΑ
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300"></i>
+                </a>
+                <a href="#philosophy" class="flex items-center gap-3 text-sm font-bold text-brand-slate hover:text-brand-taupe transition-colors tracking-widest no-accents group">
+                    <span class="w-8 h-[1px] bg-brand-sand group-hover:w-12 transition-all duration-300"></span>
+                    ΓΝΩΡΙΣΤΕ ΜΕ
+                </a>
             </div>
         </div>
 
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-            <span class="text-[10px] font-bold tracking-[0.2em] text-brand-slate no-accents">SCROLL</span>
-            <i data-lucide="mouse" class="w-5 h-5 animate-bounce text-brand-taupe"></i>
+            <span class="text-[10px] font-bold tracking-[0.2em] text-brand-slate no-accents">ΑΝΑΚΑΛΥΨΤΕ</span>
+            <div class="w-px h-10 bg-gradient-to-b from-brand-taupe to-transparent animate-pulse-slow"></div>
         </div>
     </section>
 
     <section id="philosophy" class="py-24 px-6 md:px-12 bg-white relative">
         <div class="max-w-7xl mx-auto">
-            <div class="grid lg:grid-cols-12 gap-16 items-start">
+            
+            <div class="text-center mb-16 reveal">
+                <span class="text-brand-taupe font-bold tracking-[0.2em] text-xs mb-4 block no-accents">Η ΦΙΛΟΣΟΦΙΑ ΜΟΥ</span>
+                <h2 class="text-4xl md:text-5xl font-serif text-brand-dark leading-tight">
+                    Ο άνθρωπος δεν νοσεί <span class="italic text-brand-stone">απομονωμένος</span>.
+                </h2>
+                <div class="w-24 h-[2px] bg-brand-taupe/30 mx-auto mt-8"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-16 items-center">
                 
-                <div class="lg:col-span-5 sticky top-32 reveal">
-                    <span class="text-brand-taupe font-bold tracking-[0.2em] text-xs mb-4 block no-accents">Η ΦΙΛΟΣΟΦΙΑ ΜΟΥ</span>
-                    <h2 class="text-4xl md:text-5xl font-serif text-brand-dark leading-tight mb-6">
-                        Ο άνθρωπος δεν νοσεί <span class="italic text-brand-stone">απομονωμένος</span>.
-                    </h2>
-                    <div class="w-16 h-[2px] bg-brand-taupe"></div>
+                <div class="lg:col-span-5 relative reveal reveal-delay-1">
+                    <div class="absolute inset-0 bg-brand-blush/40 blur-[70px] rounded-full scale-95 z-0"></div>
+                    
+                    <div class="relative z-10 arch-image overflow-hidden border-8 border-brand-pearl shadow-2xl animate-float">
+                        <div class="absolute inset-0 bg-brand-slate/5 mix-blend-overlay z-20 hover:opacity-0 transition-opacity duration-700"></div>
+                        <img src="https://github.com/agelmet/GIANNELI/blob/main/IMG_9771.jpeg?raw=true" alt="Μάρα Γιαννέλη Ψυχολόγος" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-1000 ease-out z-10 relative">
+                    </div>
+
+                    <div class="absolute -bottom-6 -right-6 md:-right-8 z-30 glass-card p-5 rounded-2xl shadow-elegant flex items-center gap-4 animate-[blob_8s_infinite_alternate] bg-white/90">
+                        <div class="w-12 h-12 rounded-full bg-brand-pearl border border-brand-sand flex items-center justify-center text-brand-taupe shadow-sm">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-brand-dark">Αρ. Αδείας</p>
+                            <p class="text-xs text-brand-stone font-medium mt-0.5">1265969/18-10-23</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="lg:col-span-7 space-y-8 text-lg text-brand-slate/80 font-light leading-relaxed reveal reveal-delay-1">
+                <div class="lg:col-span-7 space-y-6 text-lg text-brand-slate/80 font-light leading-relaxed reveal reveal-delay-2">
                     <p>
-                        Η <strong>Μάρα Γιαννέλη</strong> είναι αδειούχος Ψυχολόγος (Αρ. Αδείας: 1265969/18-10-23) και εκπαιδευόμενη Ψυχοθεραπεύτρια Συστημικής προσέγγισης. Οι ακαδημαϊκές της ρίζες βρίσκονται στο Πάντειο Πανεπιστήμιο, απ' όπου έλαβε το πτυχίο της στην Ψυχολογία, ενώ το διαρκές ενδιαφέρον της για τον άνθρωπο μέσα στα σύγχρονα συστήματα την οδήγησε στις Μεταπτυχιακές της σπουδές (MSc) στο Human Resources Management (Διοίκηση Ανθρώπινου Δυναμικού) στο Πανεπιστήμιο του Northampton της Αγγλίας.
+                        Η <strong>Μάρα Γιαννέλη</strong> είναι αδειούχος Ψυχολόγος και εκπαιδευόμενη Ψυχοθεραπεύτρια Συστημικής προσέγγισης. Οι ακαδημαϊκές της ρίζες βρίσκονται στο Πάντειο Πανεπιστήμιο, απ' όπου έλαβε το πτυχίο της στην Ψυχολογία, ενώ το διαρκές ενδιαφέρον της για τον άνθρωπο μέσα στα σύγχρονα συστήματα την οδήγησε στις Μεταπτυχιακές της σπουδές (MSc) στο Human Resources Management (Διοίκηση Ανθρώπινου Δυναμικού) στο Πανεπιστήμιο του Northampton της Αγγλίας.
                     </p>
-                    <p class="p-6 bg-brand-pearl rounded-2xl border border-brand-sand/40 shadow-sm relative overflow-hidden">
-                        <i data-lucide="quote" class="absolute top-4 right-4 w-12 h-12 text-brand-sand/20"></i>
-                        Η φιλοσοφία της βασίζεται στη Συστημική προσέγγιση: ο άνθρωπος δεν "νοσεί" απομονωμένος, αλλά επηρεάζεται άμεσα από τα συστήματα στα οποία ζει, όπως η οικογένεια, το σχολείο και ο εργασιακός χώρος.
+                    <p class="p-6 my-8 bg-brand-pearl rounded-2xl border-l-4 border-brand-taupe shadow-sm relative overflow-hidden">
+                        <i data-lucide="quote" class="absolute top-4 right-4 w-16 h-16 text-brand-sand/10"></i>
+                        <span class="relative z-10 block text-brand-slate font-medium">
+                            Η φιλοσοφία της βασίζεται στη Συστημική προσέγγιση: επηρεαζόμαστε άμεσα από τα συστήματα στα οποία ζούμε, όπως η οικογένεια, το σχολείο και ο εργασιακός χώρος.
+                        </span>
                     </p>
                     <p>
                         Η πλούσια κλινική της εμπειρία περιλαμβάνει εργασία σε οργανισμούς με άτομα στο φάσμα του αυτισμού και άτομα με ψυχικά νοσήματα, θωρακίζοντας την ενσυναίσθηση και την κλινική της αντίληψη. Παράλληλα, διαθέτει στοχευμένη εκπαίδευση στη Διαχείριση Άγχους, τις Διατροφικές Διαταραχές και τη Θετική Ψυχολογία.
@@ -284,11 +309,12 @@
                         Με στόχο την ευελιξία και την άμεση υποστήριξη, παρέχει τις υπηρεσίες της <strong>αποκλειστικά διαδικτυακά (online)</strong>. Στις συνεδρίες της, υποδέχεται εφήβους, ενήλικες, ζευγάρια και οικογένειες, δημιουργώντας έναν ψηφιακό, αλλά απόλυτα ζεστό και ασφαλή χώρο για ουσιαστική αλλαγή και αποδοχή.
                     </p>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section id="services" class="py-24 px-6 md:px-12 bg-brand-pearl relative overflow-hidden">
+    <section id="services" class="py-24 px-6 md:px-12 bg-brand-pearl relative overflow-hidden border-t border-brand-sand/20">
         <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-blush/20 rounded-full blur-[120px] pointer-events-none"></div>
 
         <div class="max-w-7xl mx-auto relative z-10">
@@ -328,7 +354,7 @@
                         </div>
                         <h3 class="text-2xl font-bold text-brand-dark mb-4">Εργασιακή Ψυχολογία & Διαχείριση Burnout</h3>
                         <p class="text-brand-slate/80 mb-6 text-sm leading-relaxed">
-                            Ο συνδυασμός της Ψυχολογίας με τη Διοίκηση Ανθρώπινου Δυναμικού (HRM) προσφέρει ένα σπάνιο πλεονέκτημα. Αντιμετωπίζουμε το Burnout, το στρες καριέρας και βοηθάμε στη θέσπιση υγιών ορίων.
+                            Ο συνδυασμός της Ψυχολογίας με τη Διοίκηση Ανθρώπινου Δυναμικού προσφέρει ένα σπάνιο πλεονέκτημα. Αντιμετωπίζουμε το Burnout, το στρες καριέρας και βοηθάμε στη θέσπιση υγιών ορίων.
                         </p>
                         <div class="flex flex-wrap gap-2">
                             <span class="px-3 py-1.5 bg-brand-dark text-white text-[10px] font-bold tracking-wider rounded-md no-accents">BURNOUT (50')</span>
@@ -366,7 +392,7 @@
                         </div>
                         <h3 class="text-2xl font-bold text-brand-dark mb-4">Εφηβεία, Νευροποικιλότητα & Σχολική Ψυχολογία</h3>
                         <p class="text-brand-slate/80 mb-6 text-sm leading-relaxed">
-                            Ψυχολογική υποστήριξη σε εφήβους για σχολικό άγχος και επαγγελματικό προσανατολισμό. Εξειδικευμένη καθοδήγηση για ΔΕΠΥ, βασισμένη σε προϋπηρεσία με άτομα στο φάσμα του αυτισμού.
+                            Ψυχολογική υποστήριξη σε εφήβους για σχολικό άγχος. Εξειδικευμένη καθοδήγηση για ΔΕΠΥ, βασισμένη σε προϋπηρεσία με άτομα στο φάσμα του αυτισμού.
                         </p>
                         <div class="flex flex-wrap gap-2">
                             <span class="px-3 py-1.5 bg-brand-dark text-white text-[10px] font-bold tracking-wider rounded-md no-accents">ΕΦΗΒΟΙ</span>
@@ -387,11 +413,11 @@
                             </div>
                             <h3 class="text-3xl font-serif text-brand-dark mb-4">Διαδικτυακή Ψυχοθεραπεία (Online)</h3>
                             <p class="text-brand-slate/80 text-sm md:text-base leading-relaxed max-w-xl">
-                                Όλες οι υπηρεσίες παρέχονται διαδικτυακά, με απόλυτη ασφάλεια και εχεμύθεια. Λάβετε κορυφαία ψυχολογική υποστήριξη από την άνεση του προσωπικού σας χώρου, εξοικονομώντας χρόνο από μετακινήσεις, ανεξάρτητα από τον τόπο διαμονής σας (Ελλάδα ή εξωτερικό).
+                                Όλες οι υπηρεσίες παρέχονται διαδικτυακά, με απόλυτη ασφάλεια και εχεμύθεια. Λάβετε κορυφαία υποστήριξη από την άνεση του χώρου σας, εξοικονομώντας χρόνο από μετακινήσεις, όπου κι αν βρίσκεστε.
                             </p>
                         </div>
                         <div class="md:w-1/3 flex justify-center md:justify-end">
-                            <a href="#contact" class="px-8 py-4 border-2 border-brand-dark text-brand-dark rounded-full font-bold hover:bg-brand-dark hover:text-white transition-all duration-300 no-accents text-sm">
+                            <a href="#contact" class="px-8 py-4 border-2 border-brand-dark text-brand-dark rounded-full font-bold hover:bg-brand-dark hover:text-white transition-all duration-300 no-accents text-sm whitespace-nowrap">
                                 ΚΛΕΙΣΤΕ ONLINE ΣΥΝΕΔΡΙΑ
                             </a>
                         </div>
@@ -606,7 +632,7 @@
                                 <span class="font-bold text-brand-dark text-xl">10.0</span>
                                 <img src="https://www.doctoranytime.gr/images/logo-rebranding.svg" class="h-4 opacity-40" alt="DA">
                             </div>
-                            <p class="text-brand-slate/80 text-sm mb-6 font-serif italic">"Εξαιρετική επαγγελματίας! Με έκανε να νιώσω άνετα από την πρώτη στιγμή, άκουσε με προσοχή όσα είχα να πω..."</p>
+                            <p class="text-brand-slate/80 text-sm mb-6 font-serif italic">"Εξαιρετική επαγγελματίας! Με έκανε να νιώσω άνετα από την πρώτη στιγμή, άκουσε με προσοχή..."</p>
                         </div>
                         <div class="border-t border-brand-sand/30 pt-4">
                             <p class="text-xs font-bold text-brand-dark no-accents">ΑΝΤΕΑ</p>
@@ -758,10 +784,10 @@
     </footer>
 
     <script>
-        // Initialize Icons
+        // 1. Initialize Icons
         lucide.createIcons();
 
-        // Mobile Menu Logic
+        // 2. Mobile Menu Logic
         const mobileBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -778,7 +804,7 @@
             });
         });
 
-        // Navbar Scroll Styling
+        // 3. Navbar Scroll Styling
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -790,7 +816,19 @@
             }
         });
 
-        // Scroll Reveal Observer
+        // 4. Wow Factor: Vanilla JS Parallax for Hero
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.parallax-layer');
+            const x = (window.innerWidth - e.pageX) / 90;
+            const y = (window.innerHeight - e.pageY) / 90;
+
+            shapes.forEach(shape => {
+                const speed = shape.getAttribute('data-speed') || 1;
+                shape.style.transform = `translateX(${x * speed}px) translateY(${y * speed}px)`;
+            });
+        });
+
+        // 5. Scroll Reveal Observer
         const observerOptions = {
             root: null,
             rootMargin: '0px',
